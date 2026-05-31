@@ -1,0 +1,28 @@
+.app {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 12px;
+  color: #475569;
+  font-size: 1.1rem;
+}
+
+.loading-error {
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
+}
