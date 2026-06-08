@@ -3,7 +3,6 @@ import { useVisited } from './hooks/useVisited';
 import { buildCombinedGeoJSON, getRegionName } from './utils/geoUtils';
 import { WAYPOINTS } from './data/waypoints';
 import OverviewMap from './components/OverviewMap/OverviewMap';
-import RegionMap from './components/RegionMap/RegionMap';
 import './App.css';
 
 const US_STATES_URL =
@@ -49,6 +48,14 @@ export default function App() {
     return WAYPOINTS[selectedRegion] ?? [];
   }, [selectedRegion]);
 
+  const completedRegions = useMemo(() =>
+    new Set(
+      Object.entries(WAYPOINTS)
+        .filter(([, wps]) => wps.length > 0 && wps.every(wp => visited[wp.id]))
+        .map(([region]) => region)
+    ),
+  [visited]);
+
   if (loadError) {
     return (
       <div className="loading">
@@ -64,20 +71,19 @@ export default function App() {
 
   return (
     <div className="app">
-      {selectedRegion === null ? (
-        <OverviewMap geoData={geoData} onRegionClick={handleRegionClick} />
-      ) : (
-        <RegionMap
-          regionName={selectedRegion}
-          feature={selectedFeature}
-          waypoints={selectedWaypoints}
-          visited={visited}
-          onToggleVisited={toggle}
-          onBack={handleBack}
-          onUndo={undo}
-          canUndo={canUndo}
-        />
-      )}
+      <OverviewMap
+        geoData={geoData}
+        onRegionClick={handleRegionClick}
+        focusedRegion={selectedRegion}
+        selectedFeature={selectedFeature}
+        waypoints={selectedWaypoints}
+        visited={visited}
+        onToggleVisited={toggle}
+        onBack={handleBack}
+        onUndo={undo}
+        canUndo={canUndo}
+        completedRegions={completedRegions}
+      />
     </div>
   );
 }
