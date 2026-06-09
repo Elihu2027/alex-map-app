@@ -25,6 +25,20 @@ const dimmedStyle = {
   weight: 0.5,
 };
 
+const completedStyle = {
+  fillColor: '#22c55e',
+  fillOpacity: 0.4,
+  color: '#16a34a',
+  weight: 2,
+};
+
+const completedHoverStyle = {
+  fillColor: '#22c55e',
+  fillOpacity: 0.6,
+  color: '#16a34a',
+  weight: 2.5,
+};
+
 const hoverStyle = {
   fillOpacity: 0.32,
   weight: 2.5,
@@ -39,13 +53,17 @@ const checkIcon = L.divIcon({
 
 export default function RegionLayer({ geoData, onRegionClick, focusedRegion, completedRegions = new Set() }) {
   function styleFeature(feature) {
-    if (!focusedRegion) return defaultStyle;
-    return getRegionName(feature) === focusedRegion ? focusedStyle : dimmedStyle;
+    const name = getRegionName(feature);
+    if (!focusedRegion) {
+      return completedRegions.has(name) ? completedStyle : defaultStyle;
+    }
+    return name === focusedRegion ? focusedStyle : dimmedStyle;
   }
 
   function onEachFeature(feature, layer) {
     const name = getRegionName(feature);
     const isFocused = focusedRegion === name;
+    const isComplete = completedRegions.has(name);
 
     if (!focusedRegion || isFocused) {
       layer.bindTooltip(name, {
@@ -60,8 +78,8 @@ export default function RegionLayer({ geoData, onRegionClick, focusedRegion, com
 
     layer.on({
       click: () => onRegionClick(name),
-      mouseover: (e) => e.target.setStyle(hoverStyle),
-      mouseout: (e) => e.target.setStyle(defaultStyle),
+      mouseover: (e) => e.target.setStyle(isComplete ? completedHoverStyle : hoverStyle),
+      mouseout: (e) => e.target.setStyle(isComplete ? completedStyle : defaultStyle),
     });
   }
 
