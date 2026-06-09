@@ -91,7 +91,7 @@ export default function RegionLayer({ geoData, onRegionClick, focusedRegion, com
         style={styleFeature}
         onEachFeature={onEachFeature}
       />
-      {[...completedRegions].filter(name => REGION_META[name]).map(name => (
+      {!focusedRegion && [...completedRegions].filter(name => REGION_META[name]).map(name => (
         <Marker
           key={name}
           position={REGION_META[name].center}
