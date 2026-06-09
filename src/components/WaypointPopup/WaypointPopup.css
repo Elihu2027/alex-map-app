@@ -51,3 +51,21 @@
   color: #16a34a;
   font-weight: 600;
 }
+
+.waypoint-popup__edit-btn {
+  display: block;
+  margin-top: 10px;
+  padding: 5px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.waypoint-popup__edit-btn:hover {
+  background: #e2e8f0;
+}

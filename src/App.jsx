@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useVisited } from './hooks/useVisited';
 import { useCustomWaypoints } from './hooks/useCustomWaypoints';
+import { useWaypointEdits } from './hooks/useWaypointEdits';
 import { buildCombinedGeoJSON, getRegionName } from './utils/geoUtils';
 import { WAYPOINTS } from './data/waypoints';
 import OverviewMap from './components/OverviewMap/OverviewMap';
@@ -11,12 +12,18 @@ const US_STATES_URL =
 const CA_PROVINCES_URL =
   'https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/canada.geojson';
 
+function applyEdits(wp, edits) {
+  const edit = edits[wp.id];
+  return edit ? { ...wp, ...edit } : wp;
+}
+
 export default function App() {
   const [geoData, setGeoData] = useState(null);
   const [loadError, setLoadError] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const { visited, toggle, undo, canUndo } = useVisited();
   const { customWaypoints, addWaypoint } = useCustomWaypoints();
+  const { waypointEdits, editWaypoint } = useWaypointEdits();
 
   useEffect(() => {
     Promise.all([
@@ -32,25 +39,21 @@ export default function App() {
       });
   }, []);
 
-  const handleRegionClick = useCallback((name) => {
-    setSelectedRegion(name);
-  }, []);
-
-  const handleBack = useCallback(() => {
-    setSelectedRegion(null);
-  }, []);
+  const handleRegionClick = useCallback((name) => setSelectedRegion(name), []);
+  const handleBack = useCallback(() => setSelectedRegion(null), []);
 
   const allWaypoints = useMemo(() => {
     const merged = {};
     for (const [region, wps] of Object.entries(WAYPOINTS)) {
-      merged[region] = [...wps];
+      merged[region] = wps.map(wp => applyEdits(wp, waypointEdits));
     }
     for (const wp of customWaypoints) {
-      if (!merged[wp.region]) merged[wp.region] = [];
-      merged[wp.region] = [...merged[wp.region], wp];
+      const edited = applyEdits(wp, waypointEdits);
+      if (!merged[edited.region]) merged[edited.region] = [];
+      merged[edited.region] = [...merged[edited.region], edited];
     }
     return merged;
-  }, [customWaypoints]);
+  }, [customWaypoints, waypointEdits]);
 
   const selectedFeature = useMemo(() => {
     if (!selectedRegion || !geoData) return null;
@@ -98,6 +101,7 @@ export default function App() {
         canUndo={canUndo}
         completedRegions={completedRegions}
         onAddWaypoint={addWaypoint}
+        onEditWaypoint={editWaypoint}
       />
     </div>
   );

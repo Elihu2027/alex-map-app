@@ -1,0 +1,124 @@
+.edit-loc-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+}
+
+.edit-loc-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  width: 420px;
+  max-width: calc(100vw - 40px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.edit-loc-title {
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.edit-loc-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.edit-loc-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  box-sizing: border-box;
+  outline: none;
+  margin-bottom: 16px;
+  transition: border-color 0.15s;
+}
+
+.edit-loc-input:focus {
+  border-color: #4f46e5;
+}
+
+.edit-loc-position-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.edit-loc-position-btn {
+  padding: 8px 14px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.edit-loc-position-btn:hover {
+  background: #e2e8f0;
+}
+
+.edit-loc-position-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.edit-loc-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.edit-loc-btn {
+  padding: 9px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.edit-loc-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.edit-loc-btn--cancel {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.edit-loc-btn--cancel:not(:disabled):hover {
+  background: #e2e8f0;
+}
+
+.edit-loc-btn--save {
+  background: #4f46e5;
+  color: white;
+}
+
+.edit-loc-btn--save:not(:disabled):hover {
+  background: #4338ca;
+}

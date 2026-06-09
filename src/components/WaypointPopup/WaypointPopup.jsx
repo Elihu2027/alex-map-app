@@ -1,6 +1,6 @@
 import './WaypointPopup.css';
 
-export default function WaypointPopup({ waypoint, visited, onToggle }) {
+export default function WaypointPopup({ waypoint, visited, onToggle, onEdit }) {
   return (
     <div className="waypoint-popup">
       <h3 className="waypoint-popup__name">{waypoint.name}</h3>
@@ -12,11 +12,11 @@ export default function WaypointPopup({ waypoint, visited, onToggle }) {
           rel="noopener noreferrer"
           className="waypoint-popup__link"
         >
-          Open in Google Maps ↗
+          Open in Maps ↗
         </a>
       ) : (
         <span className="waypoint-popup__link waypoint-popup__link--empty">
-          Google Maps link coming soon
+          No map link
         </span>
       )}
 
@@ -31,6 +31,10 @@ export default function WaypointPopup({ waypoint, visited, onToggle }) {
           {visited ? 'Visited ✓' : 'Mark as visited'}
         </span>
       </label>
+
+      <button className="waypoint-popup__edit-btn" onClick={() => onEdit(waypoint)}>
+        ✎ Edit
+      </button>
     </div>
   );
 }

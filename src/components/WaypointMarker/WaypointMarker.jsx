@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { createDefaultIcon, createVisitedIcon } from '../../utils/markerIcons';
 import WaypointPopup from '../WaypointPopup/WaypointPopup';
 
-export default function WaypointMarker({ waypoint, visited, onToggle }) {
+export default function WaypointMarker({ waypoint, visited, onToggle, onEdit }) {
   const icon = useMemo(
     () => (visited ? createVisitedIcon() : createDefaultIcon()),
     [visited]
@@ -12,7 +12,12 @@ export default function WaypointMarker({ waypoint, visited, onToggle }) {
   return (
     <Marker position={[waypoint.lat, waypoint.lng]} icon={icon}>
       <Popup minWidth={200}>
-        <WaypointPopup waypoint={waypoint} visited={visited} onToggle={onToggle} />
+        <WaypointPopup
+          waypoint={waypoint}
+          visited={visited}
+          onToggle={onToggle}
+          onEdit={onEdit}
+        />
       </Popup>
     </Marker>
   );
