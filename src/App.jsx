@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useVisited } from './hooks/useVisited';
+import { useCustomWaypoints } from './hooks/useCustomWaypoints';
 import { buildCombinedGeoJSON, getRegionName } from './utils/geoUtils';
 import { WAYPOINTS } from './data/waypoints';
 import OverviewMap from './components/OverviewMap/OverviewMap';
@@ -15,6 +16,7 @@ export default function App() {
   const [loadError, setLoadError] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const { visited, toggle, undo, canUndo } = useVisited();
+  const { customWaypoints, addWaypoint } = useCustomWaypoints();
 
   useEffect(() => {
     Promise.all([
@@ -38,6 +40,18 @@ export default function App() {
     setSelectedRegion(null);
   }, []);
 
+  const allWaypoints = useMemo(() => {
+    const merged = {};
+    for (const [region, wps] of Object.entries(WAYPOINTS)) {
+      merged[region] = [...wps];
+    }
+    for (const wp of customWaypoints) {
+      if (!merged[wp.region]) merged[wp.region] = [];
+      merged[wp.region] = [...merged[wp.region], wp];
+    }
+    return merged;
+  }, [customWaypoints]);
+
   const selectedFeature = useMemo(() => {
     if (!selectedRegion || !geoData) return null;
     return geoData.features.find((f) => getRegionName(f) === selectedRegion) ?? null;
@@ -45,16 +59,16 @@ export default function App() {
 
   const selectedWaypoints = useMemo(() => {
     if (!selectedRegion) return [];
-    return WAYPOINTS[selectedRegion] ?? [];
-  }, [selectedRegion]);
+    return allWaypoints[selectedRegion] ?? [];
+  }, [selectedRegion, allWaypoints]);
 
   const completedRegions = useMemo(() =>
     new Set(
-      Object.entries(WAYPOINTS)
+      Object.entries(allWaypoints)
         .filter(([, wps]) => wps.length > 0 && wps.every(wp => visited[wp.id]))
         .map(([region]) => region)
     ),
-  [visited]);
+  [visited, allWaypoints]);
 
   if (loadError) {
     return (
@@ -83,6 +97,7 @@ export default function App() {
         onUndo={undo}
         canUndo={canUndo}
         completedRegions={completedRegions}
+        onAddWaypoint={addWaypoint}
       />
     </div>
   );

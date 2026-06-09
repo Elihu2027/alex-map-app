@@ -1,0 +1,179 @@
+.add-location-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+}
+
+.add-location-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  width: 420px;
+  max-width: calc(100vw - 40px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.add-location-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.add-location-subtitle {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.add-location-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.add-location-input:focus {
+  border-color: #4f46e5;
+}
+
+.add-location-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.add-loc-btn {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.add-loc-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.add-loc-btn--back {
+  background: #f1f5f9;
+  color: #475569;
+  margin-right: auto;
+}
+
+.add-loc-btn--back:not(:disabled):hover {
+  background: #e2e8f0;
+}
+
+.add-loc-btn--cancel {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.add-loc-btn--cancel:not(:disabled):hover {
+  background: #e2e8f0;
+}
+
+.add-loc-btn--primary {
+  background: #4f46e5;
+  color: white;
+}
+
+.add-loc-btn--primary:not(:disabled):hover {
+  background: #4338ca;
+}
+
+/* Placement step */
+.placing-marker {
+  width: 24px;
+  height: 24px;
+  background: #f97316;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.placement-instruction {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 8px 20px;
+  background: #1e293b;
+  color: white;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.placement-btn {
+  position: absolute;
+  z-index: 1000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.placement-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.placement-btn--back {
+  top: 16px;
+  left: 16px;
+  background: white;
+  color: #1e293b;
+}
+
+.placement-btn--back:not(:disabled):hover {
+  background: #f1f5f9;
+}
+
+.placement-btn--cancel {
+  top: 16px;
+  right: 16px;
+  background: white;
+  color: #dc2626;
+}
+
+.placement-btn--cancel:not(:disabled):hover {
+  background: #fef2f2;
+}
+
+.placement-btn--confirm {
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #16a34a;
+  color: white;
+  padding: 12px 36px;
+  font-size: 15px;
+}
+
+.placement-btn--confirm:not(:disabled):hover {
+  background: #15803d;
+}
