@@ -30,5 +30,10 @@ export function useWaypointEdits() {
     });
   }, []);
 
-  return { waypointEdits: edits, editWaypoint };
+  const reset = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY);
+    setEdits({});
+  }, []);
+
+  return { waypointEdits: edits, editWaypoint, resetWaypointEdits: reset };
 }

@@ -39,6 +39,8 @@ function reducer(state, action) {
       const prev = state.undoStack[state.undoStack.length - 1];
       return { visited: prev, undoStack: state.undoStack.slice(0, -1) };
     }
+    case 'RESET':
+      return { visited: {}, undoStack: [] };
     default:
       return state;
   }
@@ -53,11 +55,13 @@ export function useVisited() {
 
   const toggle = useCallback((id) => dispatch({ type: 'TOGGLE', id }), []);
   const undo = useCallback(() => dispatch({ type: 'UNDO' }), []);
+  const reset = useCallback(() => dispatch({ type: 'RESET' }), []);
 
   return {
     visited: state.visited,
     toggle,
     undo,
     canUndo: state.undoStack.length > 0,
+    reset,
   };
 }

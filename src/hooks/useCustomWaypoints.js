@@ -30,5 +30,10 @@ export function useCustomWaypoints() {
     });
   }, []);
 
-  return { customWaypoints: waypoints, addWaypoint };
+  const reset = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY);
+    setWaypoints([]);
+  }, []);
+
+  return { customWaypoints: waypoints, addWaypoint, resetCustomWaypoints: reset };
 }

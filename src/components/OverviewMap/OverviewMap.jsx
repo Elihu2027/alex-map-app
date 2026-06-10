@@ -8,6 +8,7 @@ import MapFocuser from '../MapFocuser';
 import AddLocationModal from '../AddLocation/AddLocationModal';
 import PlacementMarker from '../AddLocation/PlacementMarker';
 import EditLocationModal from '../EditLocation/EditLocationModal';
+import ResetButton from '../ResetButton/ResetButton';
 import './OverviewMap.css';
 
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
@@ -18,7 +19,7 @@ export default function OverviewMap({
   focusedRegion, selectedFeature, waypoints,
   visited, onToggleVisited,
   onBack, onUndo, canUndo,
-  completedRegions, onAddWaypoint, onEditWaypoint,
+  completedRegions, onAddWaypoint, onEditWaypoint, onReset,
 }) {
   // Add flow
   const [addStep, setAddStep] = useState(null);
@@ -109,6 +110,10 @@ export default function OverviewMap({
 
   return (
     <div className="overview-map">
+      {!focusedRegion && !inAnyFlow && (
+        <ResetButton onReset={onReset} />
+      )}
+
       {showNormalUI && (
         <>
           <BackButton onBack={onBack} regionName={focusedRegion} />

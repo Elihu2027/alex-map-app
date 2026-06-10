@@ -21,9 +21,9 @@ export default function App() {
   const [geoData, setGeoData] = useState(null);
   const [loadError, setLoadError] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const { visited, toggle, undo, canUndo } = useVisited();
-  const { customWaypoints, addWaypoint } = useCustomWaypoints();
-  const { waypointEdits, editWaypoint } = useWaypointEdits();
+  const { visited, toggle, undo, canUndo, reset: resetVisited } = useVisited();
+  const { customWaypoints, addWaypoint, resetCustomWaypoints } = useCustomWaypoints();
+  const { waypointEdits, editWaypoint, resetWaypointEdits } = useWaypointEdits();
 
   useEffect(() => {
     Promise.all([
@@ -41,6 +41,12 @@ export default function App() {
 
   const handleRegionClick = useCallback((name) => setSelectedRegion(name), []);
   const handleBack = useCallback(() => setSelectedRegion(null), []);
+  const handleReset = useCallback(() => {
+    resetVisited();
+    resetCustomWaypoints();
+    resetWaypointEdits();
+    setSelectedRegion(null);
+  }, [resetVisited, resetCustomWaypoints, resetWaypointEdits]);
 
   const allWaypoints = useMemo(() => {
     const merged = {};
@@ -102,6 +108,7 @@ export default function App() {
         completedRegions={completedRegions}
         onAddWaypoint={addWaypoint}
         onEditWaypoint={editWaypoint}
+        onReset={handleReset}
       />
     </div>
   );
